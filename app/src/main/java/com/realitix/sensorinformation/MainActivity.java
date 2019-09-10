@@ -17,20 +17,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor mGravity, mAccelometer, mLight;
     private TextView txtMGravity, txtMAccelometer, txtMLight;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    private void initializeSensors() {
         List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
-        sensors.forEach((sensor) -> System.out.println(sensor.getName()));
         mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         mAccelometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         txtMGravity = (TextView) findViewById(R.id.gravity);
         txtMAccelometer = (TextView) findViewById(R.id.accelometer);
         txtMLight = (TextView) findViewById(R.id.light);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        initializeSensors();
     }
 
     @Override
