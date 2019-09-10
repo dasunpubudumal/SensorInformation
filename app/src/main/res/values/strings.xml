@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Sensor Information</string>
+    <string name="gravity">Gravity Sensor:</string>
+    <string name="nan">NaN</string>
 </resources>
