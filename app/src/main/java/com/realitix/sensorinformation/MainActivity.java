@@ -14,14 +14,15 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
-    private Sensor mGravity, mAccelometer, mLight;
-    private TextView txtMGravity, txtMAccelometer, txtMLight;
+    private Sensor mGravity, mAccelometer, mLight, mHall;
+    private TextView txtMGravity, txtMAccelometer, txtMLight, txtMHall;
 
     private void initializeSensors() {
         List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
         mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         mAccelometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        mHall = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
     }
 
     @Override
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         txtMGravity = (TextView) findViewById(R.id.gravity);
         txtMAccelometer = (TextView) findViewById(R.id.accelometer);
         txtMLight = (TextView) findViewById(R.id.light);
+        txtMHall = (TextView) findViewById(R.id.hall);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         initializeSensors();
     }
@@ -47,9 +49,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
             case Sensor.TYPE_LIGHT:
                 txtMLight.setText(String.valueOf(value));
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                txtMHall.setText(String.valueOf(value));
+                break;
             default:
-                txtMGravity.setText(R.string.nan);
-                txtMAccelometer.setText(R.string.nan);
+                txtMHall.setText(String.valueOf(0.0f));
+                txtMLight.setText(String.valueOf(0.0f));
+                txtMAccelometer.setText(String.valueOf(0.0f));
+                txtMGravity.setText(String.valueOf(0.0f));
         }
     }
 
@@ -59,9 +67,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, mAccelometer, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, mLight, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, mGravity,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, mAccelometer,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, mLight,
+                SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, mHall,
+                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
