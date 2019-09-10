@@ -2,13 +2,13 @@
 
 ## Sensors available in Huawei nova 3i
 
-* accelerometer-lsm6ds3-c
+* [X] accelerometer-lsm6ds3-c
 * mag-akm09918
 * orientation
-* light-ltr578
+* [X] light-ltr578
 * proximity-ltr578
 * st-lsm6ds3
-* gravity
+* [X] gravity
 * linear Acceleration
 * rotation Vector
 * HALL sensor

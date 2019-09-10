@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private SensorManager sensorManager;
     private Sensor mGravity, mAccelometer, mLight;
-    private float gravityValue, accelometerValue, lightValue;
     private TextView txtMGravity, txtMAccelometer, txtMLight;
 
     @Override
@@ -39,18 +38,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         float value = sensorEvent.values[0];
         switch (sensorEvent.sensor.getType()) {
             case Sensor.TYPE_GRAVITY:
-                gravityValue = value;
-                txtMGravity.setText(String.valueOf(gravityValue));
+                txtMGravity.setText(String.valueOf(value));
                 break;
             case Sensor.TYPE_ACCELEROMETER:
-                accelometerValue =value;
-                txtMAccelometer.setText(String.valueOf(accelometerValue));
+                txtMAccelometer.setText(String.valueOf(value));
                 break;
             case Sensor.TYPE_LIGHT:
-                lightValue = value;
-                txtMLight.setText(String.valueOf(lightValue));
+                txtMLight.setText(String.valueOf(value));
             default:
-                gravityValue = 0.0f;
                 txtMGravity.setText(R.string.nan);
                 txtMAccelometer.setText(R.string.nan);
         }
