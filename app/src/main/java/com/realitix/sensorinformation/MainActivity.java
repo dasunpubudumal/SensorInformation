@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void startPause(View view) {
         startSwitch = !startSwitch;
         if(startSwitch) {
-            btnStartStop.setText(R.string.pause);
+            btnStartStop.setText(R.string.stop);
             sensorManager.registerListener(this, mGravity,
                     SensorManager.SENSOR_DELAY_NORMAL);
             sensorManager.registerListener(this, mAccelometer,
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      * Operates the Stop button
      * @param view: current view
      */
-    public void stop(View view) {
+    public void reset(View view) {
         sensorManager.unregisterListener(this);
         txtMGravity.setText(String.valueOf(0));
         txtMAccelometer.setText(String.valueOf(0));
