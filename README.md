@@ -1,5 +1,7 @@
 # Sensor Reading from Android
 
+<div align="center"><img src="screen.png" /></div>
+
 ## Sensors available in Huawei nova 3i
 
 [X] accelerometer-lsm6ds3-c
