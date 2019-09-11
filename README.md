@@ -1,6 +1,6 @@
 # Sensor Reading from Android
 
-<div align="center" style="height: 50%; width: 50%"><img src="screen.png" /></div>
+<div align="center" style="height: 20%; width: 20%"><img src="screen.png" /></div>
 
 ## Sensors available in Huawei nova 3i
 
