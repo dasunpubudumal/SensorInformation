@@ -7,6 +7,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,8 +16,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
-    private Sensor mGravity, mAccelometer, mLight, mHall, mProximity;
-    private TextView txtMGravity, txtMAccelometer, txtMLight, txtMHall, txtMProximity;
+    private Sensor mGravity, mAccelometer, mLight, mHall, mProximity, mGyro;
+    private TextView txtMGravity, txtMAccelometer, txtMLight, txtMHall, txtMProximity, txtMGyro;
+    private Button btnStartStop;
+    private boolean startSwitch = false;
 
     private void initializeSensors() {
         List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         mHall = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         mProximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        mGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
     }
 
     @Override
@@ -35,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         txtMLight = (TextView) findViewById(R.id.light);
         txtMHall = (TextView) findViewById(R.id.hall);
         txtMProximity = (TextView) findViewById(R.id.proximity);
+        txtMGyro = (TextView) findViewById(R.id.gyro);
+        btnStartStop = (Button) findViewById(R.id.startStop);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         initializeSensors();
     }
@@ -57,6 +64,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
             case Sensor.TYPE_PROXIMITY:
                 txtMProximity.setText(String.valueOf(value));
+                break;
+            case Sensor.TYPE_GYROSCOPE:
+                txtMGyro.setText(String.valueOf(value));
+                break;
         }
     }
 
@@ -66,16 +77,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, mGravity,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, mAccelometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, mLight,
-                SensorManager.SENSOR_DELAY_GAME);
-        sensorManager.registerListener(this, mHall,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, mProximity,
-                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -84,4 +85,43 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager.unregisterListener(this);
     }
 
+    /**
+     * Operates the Start button
+     * @param view: current view
+     */
+    public void startPause(View view) {
+        startSwitch = !startSwitch;
+        if(startSwitch) {
+            btnStartStop.setText(R.string.pause);
+            sensorManager.registerListener(this, mGravity,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, mAccelometer,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, mLight,
+                    SensorManager.SENSOR_DELAY_GAME);
+            sensorManager.registerListener(this, mHall,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, mProximity,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, mGyro,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
+            btnStartStop.setText(R.string.start);
+            sensorManager.unregisterListener(this);
+        }
+    }
+
+    /**
+     * Operates the Stop button
+     * @param view: current view
+     */
+    public void stop(View view) {
+        sensorManager.unregisterListener(this);
+        txtMGravity.setText(String.valueOf(0));
+        txtMAccelometer.setText(String.valueOf(0));
+        txtMLight.setText(String.valueOf(0));
+        txtMHall.setText(String.valueOf(0));
+        txtMProximity.setText(String.valueOf(0));
+        txtMGyro.setText(String.valueOf(0));
+    }
 }
