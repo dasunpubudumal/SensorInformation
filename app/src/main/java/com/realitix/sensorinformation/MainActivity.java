@@ -21,6 +21,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button btnStartStop;
     private boolean startSwitch = false;
 
+    private void registerListeners(){
+        sensorManager.registerListener(this, mGravity,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, mAccelometer,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, mLight,
+                SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, mHall,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, mProximity,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, mGyro,
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
     private void initializeSensors() {
         List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
         mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
@@ -77,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
+        if(startSwitch) registerListeners();
     }
 
     @Override
@@ -93,18 +109,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startSwitch = !startSwitch;
         if(startSwitch) {
             btnStartStop.setText(R.string.stop);
-            sensorManager.registerListener(this, mGravity,
-                    SensorManager.SENSOR_DELAY_NORMAL);
-            sensorManager.registerListener(this, mAccelometer,
-                    SensorManager.SENSOR_DELAY_NORMAL);
-            sensorManager.registerListener(this, mLight,
-                    SensorManager.SENSOR_DELAY_GAME);
-            sensorManager.registerListener(this, mHall,
-                    SensorManager.SENSOR_DELAY_NORMAL);
-            sensorManager.registerListener(this, mProximity,
-                    SensorManager.SENSOR_DELAY_NORMAL);
-            sensorManager.registerListener(this, mGyro,
-                    SensorManager.SENSOR_DELAY_NORMAL);
+            registerListeners();
         } else {
             btnStartStop.setText(R.string.start);
             sensorManager.unregisterListener(this);
